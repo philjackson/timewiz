@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "create-react-class": "^15.6.3",
+    "interactjs": "^1.4.0-rc.13",
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "semantic-ui-react": "^0.87.3"

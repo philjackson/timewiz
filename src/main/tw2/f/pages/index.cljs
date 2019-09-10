@@ -1,5 +1,7 @@
 (ns tw2.f.pages.index
-  (:require [clojure.string :refer [join]]))
+  (:require [clojure.string :refer [join]]
+            [tw2.c.log :refer [dbg]]
+            ["interactjs" :as interact]))
 
 (def places [{:place "london"}
              {:place "paris"}
@@ -8,8 +10,8 @@
 (defn search []
   )
 
-(defn times []
-  [:<> (map (fn [hour] [:div hour]) (range 0 24))])
+(defn times [offset]
+  [:<> (map (fn [hour] ^{:key hour} [:div hour]) (range 0 24))])
 
 (defn columns []
   [:div#time-grid 
@@ -17,7 +19,7 @@
      ^{:key place}
      [:<>
       [:div place]
-      [times]])])
+      [times 0]])])
 
 (defn index-page []
   [columns])
