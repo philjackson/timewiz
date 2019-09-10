@@ -1,0 +1,9 @@
+;; shadow-cljs configuration
+{:source-paths ["src/dev" "src/main" "src/test"]
+ :dev-http {8080 {:roots ["public" "resources/public"]
+                  :proxy-url "http://localhost:3000"}}
+ :dependencies []
+ :builds {:frontend {:target :browser
+                     :devtools {:before-load tw2.f.app/stop
+                                :after-load tw2.f.app/start}
+                     :modules {:main {:init-fn tw2.f.app/init}}}}}
