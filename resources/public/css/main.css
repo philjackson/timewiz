@@ -1,0 +1,23 @@
+body {
+  background: #fff;
+}
+#time-grid {
+  display: grid;
+  justify-content: space-between;
+  justify-items: center;
+  grid-template-rows: repeat(25, 30px);
+  grid-auto-flow: column;
+}
+#main {
+  padding: 10px;
+}
+@media only screen and (min-width: 960px) {
+  #main {
+    max-width: 1024px;
+    margin: 0 auto;
+  }
+}
+#desktop-menu {
+  border: 0;
+  border-radius: 0px;
+}

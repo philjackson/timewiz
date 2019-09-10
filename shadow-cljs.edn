@@ -2,7 +2,8 @@
 {:source-paths ["src/dev" "src/main" "src/test"]
  :dev-http {8080 {:roots ["public" "resources/public"]
                   :proxy-url "http://localhost:3000"}}
- :dependencies []
+ :dependencies [[metosin/reitit "0.3.9"]
+                [reagent "0.8.1" :exclusions [cljsjs/react cljsjs/react-dom]]]
  :builds {:frontend {:target :browser
                      :devtools {:before-load tw2.f.app/stop
                                 :after-load tw2.f.app/start}

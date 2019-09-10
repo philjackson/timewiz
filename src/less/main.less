@@ -1,0 +1,32 @@
+@mobile:  ~"only screen and (min-width: 320px) and (max-width: 767px)";
+@tablet:  ~"only screen and (min-width: 768px) and (max-width: 991px)";
+@desktop: ~"only screen and (min-width: 960px)";
+
+body {
+    background: #fff;
+}
+
+#app {
+}
+
+#time-grid {
+    display: grid;
+    justify-content: space-between;
+    justify-items: center;
+    grid-template-rows: repeat(25, 30px);
+    grid-auto-flow: column;
+}
+
+#main {
+    padding: 10px;
+
+    @media @desktop {
+        max-width: 1024px;
+        margin: 0 auto;
+    }
+}
+
+#desktop-menu {
+    border: 0;
+    border-radius: 0px;
+}
