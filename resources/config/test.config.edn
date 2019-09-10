@@ -1,6 +1,0 @@
-{:db {:dbname #or [#env POSTGRES_DB "planner-test"]
-      :host #or [#env POSTGRES_HOST "localhost"]
-      :user #or [#env POSTGRES_USER "phil"]
-      :password #or [#env POSTGRES_PASSWORD "phil"]}
- :hostname "http://localhost:3000"
- :email {:enabled? false}}
