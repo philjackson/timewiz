@@ -18,3 +18,5 @@ pom.xml.asc
 
 .hgignore
 .hg/
+/tools/index-builder/cities15000.txt
+/tools/index-builder/latest.json
