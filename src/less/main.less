@@ -10,11 +10,27 @@ body {
 }
 
 #time-grid {
-    display: grid;
-    justify-content: space-between;
-    justify-items: center;
-    grid-template-rows: repeat(25, 30px);
-    grid-auto-flow: column;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+
+    .column {
+        flex-grow: 1;
+        text-align: center;
+        margin: 5px;
+
+        .cell-header {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            height: 50px;
+        }
+
+        .cell {
+            margin: 1px;
+            padding: 2px;
+        }
+    }
 }
 
 #main {
