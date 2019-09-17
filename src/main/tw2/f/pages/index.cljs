@@ -98,7 +98,7 @@
 (defn columns []
   [:div#time-grid
    (for [place @places]
-     ^{:key (:city place)} [column place])])
+     ^{:key (str place)} [column place])])
 
 (defn index-page []
   [:<>
