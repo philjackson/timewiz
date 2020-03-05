@@ -1,7 +1,7 @@
 (ns tw2.f.pages.index
   (:require [clojure.string :refer [join]]
             [reagent.core :refer [atom with-let create-class]]
-            [tw2.c.log :refer [dbg-str dbg]]
+            [alandipert.storage-atom :refer [local-storage]]
             [ajax.core :refer [GET]]
             ["interactjs" :as interact]
             ["flexsearch" :as FlexSearch]
@@ -11,12 +11,17 @@
             [cljs-time.format :as tf]
             [cljs-time.coerce :as tc]))
 
-(def places (atom [{:city "London" :region "Europe/London"}
-                   {:city "St Johns" :region "America/St_Johns"}
-                   {:city "Budapest" :region "Europe/Budapest"}]))
+(def places (local-storage
+             (atom [{:city "London" :region "Europe/London"}
+                    {:city "St Johns" :region "America/St_Johns"}
+                    {:city "Budapest" :region "Europe/Budapest"}])
+             :places))
 
 (def idx (FlexSearch. #js {:encode "icase"
                            :tokenize "forward"}))
+
+(defn already-have-place? [new-place]
+  (boolean (first (filter @places #(= % new-place)))))
 
 (defn search []
   (let [results (atom nil)

@@ -4,6 +4,7 @@
                   :proxy-url "http://localhost:3000"}}
  :dependencies [[metosin/reitit "0.3.9"]
                 [cljs-ajax "0.8.0"]
+                [alandipert/storage-atom "2.0.1"]
                 [com.andrewmcveigh/cljs-time "0.5.2"]
                 [reagent "0.8.1" :exclusions [cljsjs/react cljsjs/react-dom]]]
  :builds {:frontend {:target :browser
