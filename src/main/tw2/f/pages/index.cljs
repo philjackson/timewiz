@@ -20,6 +20,7 @@
 
 (defn search []
   (let [results (atom nil)
+        value (atom "")
         search-loaded? (atom false)]
     (create-class
      {:display-name "index-page"
@@ -34,27 +35,29 @@
       (fn []
         [s/search {:input {:fluid true}
                    :fluid true
+                   :value @value
                    :results @results
 
                    :on-result-select
                    (fn [_ results]
                      (let [res (js->clj (.-result results) :keywordize-keys true)
                            {:keys [title description]} res]
-                       (swap! places conj {:city title :region description})))
+                       (swap! places conj {:city title :region description})
+                       (reset! value "")))
 
                    :on-search-change
                    (fn [_ input]
-                     (let [val (:value (js->clj input :keywordize-keys true))]
-                       (.search idx val
-                                #js {:limit 20 :threshold 2}
-                                (fn [hits]
-                                  (reset! results
-                                          (map (fn [hit]
-                                                 (let [[region city] (split hit #"\.{3}")]
-                                                   {:title city
-                                                    :description region
-                                                    :key hit}))
-                                               hits))))))
+                     (reset! value (.-value input))
+                     (.search idx @value
+                              #js {:limit 20 :threshold 2}
+                              (fn [hits]
+                                (reset! results
+                                        (map (fn [hit]
+                                               (let [[region city] (split hit #"\.{3}")]
+                                                 {:title city
+                                                  :description region
+                                                  :key hit}))
+                                             hits)))))
                    :placeholder "Find a city or a timezone"}])})))
 
 (defn format-time [time fmt offset]
