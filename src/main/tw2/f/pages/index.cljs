@@ -1,6 +1,6 @@
 (ns tw2.f.pages.index
   (:require [clojure.string :refer [join]]
-            [reagent.core :refer [atom with-let]]
+            [reagent.core :refer [atom with-let create-class]]
             [tw2.c.log :refer [dbg-str dbg]]
             [ajax.core :refer [GET]]
             ["interactjs" :as interact]
@@ -18,58 +18,68 @@
 (def idx (FlexSearch. #js {:encode "icase"
                            :tokenize "forward"}))
 
-(GET "/index.index" {:handler (fn [all]
-                                (.import idx all))})
-
 (defn search []
-  (with-let [results (atom nil)]
-    [s/search {:input {:fluid true}
-               :fluid true
-               :results @results
-               :on-result-select
-               (fn [_ results]
-                 (let [res (js->clj (.-result results) :keywordize-keys true)
-                       {:keys [title description]} res]
-                   (swap! places conj {:city title :region description})))
+  (let [results (atom nil)
+        search-loaded? (atom false)]
+    (create-class
+     {:display-name "index-page"
 
-               :on-search-change
-               (fn [_ input]
-                 (let [val (:value (js->clj input :keywordize-keys true))]
-                   (.search idx val
-                            #js {:limit 20 :threshold 2}
-                            (fn [hits]
-                              (reset! results
-                                      (map (fn [hit]
-                                             (let [[region city] (split hit #"\.{3}")]
-                                               {:title city
-                                                :description region
-                                                :key hit}))
-                                           hits))))))
-               :placeholder "Find a city or a timezone"}]))
+      :component-will-mount
+      (fn [] (GET "/index.index"
+                 {:handler (fn [all]
+                             (.import idx all)
+                             (reset! search-loaded? true))}))
+
+      :reagent-render
+      (fn []
+        [s/search {:input {:fluid true}
+                   :fluid true
+                   :results @results
+
+                   :on-result-select
+                   (fn [_ results]
+                     (let [res (js->clj (.-result results) :keywordize-keys true)
+                           {:keys [title description]} res]
+                       (swap! places conj {:city title :region description})))
+
+                   :on-search-change
+                   (fn [_ input]
+                     (let [val (:value (js->clj input :keywordize-keys true))]
+                       (.search idx val
+                                #js {:limit 20 :threshold 2}
+                                (fn [hits]
+                                  (reset! results
+                                          (map (fn [hit]
+                                                 (let [[region city] (split hit #"\.{3}")]
+                                                   {:title city
+                                                    :description region
+                                                    :key hit}))
+                                               hits))))))
+                   :placeholder "Find a city or a timezone"}])})))
 
 (defn format-time [time fmt offset]
-(let [stupid-offset (rem offset 60)]
-  (cond
-    (= fmt :12) [:div.time
-                 [:div.hours (tf/unparse
-                              (tf/formatter "h")
-                              time)
-                  (when-not (= stupid-offset 0)
-                    [:span.extra-mins ":" stupid-offset])]
+  (let [stupid-offset (rem offset 60)]
+    (cond
+      (= fmt :12) [:div.time
+                   [:div.hours (tf/unparse
+                                (tf/formatter "h")
+                                time)
+                    (when-not (= stupid-offset 0)
+                      [:span.extra-mins ":" stupid-offset])]
 
-                 [:div.meridiem (tf/unparse
-                                 (tf/formatter "a")
-                                 time)]]
-    (= fmt :24) [:div.time
-                 [:span.hours (tf/unparse
-                               (tf/formatter "H")
-                               time)]])))
+                   [:div.meridiem (tf/unparse
+                                   (tf/formatter "a")
+                                   time)]]
+      (= fmt :24) [:div.time
+                   [:span.hours (tf/unparse
+                                 (tf/formatter "H")
+                                 time)]])))
 
 (defn times [start place offset]
-[:<>
- (for [i (range 0 24)]
-   ^{:key (str (:city place) i)}
-   [:div.cell (format-time (t/plus start (t/hours i)) :12 offset)])])
+  [:<>
+   (for [i (range 0 24)]
+     ^{:key (str (:city place) i)}
+     [:div.cell (format-time (t/plus start (t/hours i)) :12 offset)])])
 
 (defn extract-current-tz [timestamps]
   (first (filter #(or (< (t/epoch) (first %))
@@ -89,7 +99,8 @@
                                 ;; offset
                                 (extract-current-tz %))})
           [:div "Loading."])
-        [s/segment {:class "column"}
+        [:div.column
+         [:div.drag-handle "::::"]
          [:div.cell-header
           [:b (:city place)]
           [:div short-name]]

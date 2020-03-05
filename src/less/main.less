@@ -11,24 +11,33 @@ body {
 
 #time-grid {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     flex-wrap: nowrap;
 
     .column {
-        flex-grow: 1;
         text-align: center;
         margin: 5px;
 
         .cell-header {
             white-space: nowrap;
-            text-overflow: ellipsis;
-            word-break: break-all;
-            height: 50px;
+            writing-mode: vertical-rl;
+            margin: auto;
+            margin-bottom: 20px;
+            text-align: right;
+            height: 5em;
+        }
+
+        .drag-handle {
+            font-size: large;
+            color: #aaa;
         }
 
         .cell {
             margin: 1px;
             padding: 2px;
+            border: 1px solid #eee;
+            width: 4em;
+            background: #fff;
         }
     }
 }
