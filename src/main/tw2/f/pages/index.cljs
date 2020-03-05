@@ -82,7 +82,7 @@
   [:<>
    (for [i (range 0 24)]
      ^{:key (str (:city place) i)}
-     [:div.cell (format-time (t/plus start (t/hours i)) :12 offset)])])
+     [:div (format-time (t/plus start (t/hours i)) :12 offset)])])
 
 (defn extract-current-tz [timestamps]
   (first (filter #(or (< (t/epoch) (first %))
@@ -102,10 +102,10 @@
                                 ;; offset
                                 (extract-current-tz %))})
           [:div "Loading."])
-        [:div.column
-         [:div.drag-handle "::::"]
+        [:<>
+         [:div.drag-bar "::::"]
          [:div.cell-header
-          [:b (:city place)]
+          [:b.city (:city place)]
           [:div short-name]]
          [times (t/minus now (t/minutes offset)) place offset]]))))
 

@@ -1,33 +1,27 @@
 body {
   background: #fff;
 }
+.ui.search .prompt {
+  border-radius: 0 !important;
+}
 #time-grid {
-  display: flex;
-  justify-content: center;
-  flex-wrap: nowrap;
-}
-#time-grid .column {
+  display: grid;
+  grid-template-rows: auto auto repeat(24, 4em);
+  grid-auto-flow: column;
+  justify-content: space-evenly;
   text-align: center;
-  margin: 5px;
+  grid-gap: 5px;
 }
-#time-grid .column .cell-header {
-  white-space: nowrap;
-  writing-mode: vertical-rl;
-  margin: auto;
-  margin-bottom: 20px;
-  text-align: right;
-  height: 5em;
-}
-#time-grid .column .drag-handle {
+#time-grid .drag-bar {
   font-size: large;
   color: #aaa;
 }
-#time-grid .column .cell {
-  margin: 1px;
-  padding: 2px;
-  border: 1px solid #eee;
-  width: 4em;
-  background: #fff;
+#time-grid .cell-header {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  writing-mode: vertical-rl;
+  text-align: left;
 }
 #main {
   padding: 10px;

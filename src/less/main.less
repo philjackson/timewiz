@@ -9,36 +9,30 @@ body {
 #app {
 }
 
+.ui.search .prompt {
+    border-radius: 0 !important;
+}
+
 #time-grid {
-    display: flex;
-    justify-content: center;
-    flex-wrap: nowrap;
+    display: grid;
+    grid-template-rows: auto auto repeat(24, 4em);
+    grid-auto-flow: column;
+    justify-content: space-evenly;
+    text-align: center;
+    grid-gap: 5px;
 
-    .column {
-        text-align: center;
-        margin: 5px;
+    .drag-bar {
+        font-size: large;
+        color: #aaa;
+    }
 
-        .cell-header {
-            white-space: nowrap;
-            writing-mode: vertical-rl;
-            margin: auto;
-            margin-bottom: 20px;
-            text-align: right;
-            height: 5em;
-        }
-
-        .drag-handle {
-            font-size: large;
-            color: #aaa;
-        }
-
-        .cell {
-            margin: 1px;
-            padding: 2px;
-            border: 1px solid #eee;
-            width: 4em;
-            background: #fff;
-        }
+    .cell-header {
+        white-space: nowrap;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        writing-mode: vertical-rl;
+        text-align: left;
     }
 }
 
