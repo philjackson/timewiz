@@ -1,6 +1,3 @@
-body {
-  background: #ddd;
-}
 .ui.search .prompt {
   border-radius: 3px !important;
 }
@@ -48,10 +45,9 @@ body {
   text-overflow: ellipsis;
   position: sticky;
   top: 0;
-  color: white;
-  background: #688cba;
   height: 100%;
   width: 100%;
+  background: white;
   padding-bottom: 5px;
 }
 #main {
