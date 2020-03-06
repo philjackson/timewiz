@@ -1,5 +1,5 @@
 body {
-  background: #fff;
+  background: #ddd;
 }
 .ui.search .prompt {
   border-radius: 3px !important;
@@ -7,21 +7,52 @@ body {
 #time-grid {
   display: grid;
   grid-template-rows: auto auto repeat(24, 4em);
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   grid-auto-flow: column;
-  justify-content: space-evenly;
   text-align: center;
-  grid-gap: 5px;
+  justify-content: center;
+}
+#time-grid .cell {
+  margin-left: 1px;
+  margin-right: 1px;
+  border-right: 1px solid #2b415e;
+  border-left: 1px solid #2b415e;
+}
+#time-grid .cell.terrible-time {
+  background: #aec1da;
+}
+#time-grid .cell.terrible-time.start-of-day {
+  margin-top: 1px;
+  border-radius: 6px 6px 0 0;
+  border-top: 1px solid #4b72a4;
+}
+#time-grid .cell.terrible-time.end-of-day {
+  border-radius: 0 0 6px 6px;
+  margin-bottom: 1px;
+  border-bottom: 1px solid #4b72a4;
+}
+#time-grid .cell.bad-time {
+  background: #bfcfe2;
+}
+#time-grid .cell.good-time {
+  background: #eee;
 }
 #time-grid .drag-bar {
   font-size: large;
   color: #aaa;
+  padding: 10px;
 }
 #time-grid .cell-header {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  writing-mode: vertical-rl;
-  text-align: left;
+  position: sticky;
+  top: 0;
+  color: white;
+  background: #688cba;
+  height: 100%;
+  width: 100%;
+  padding-bottom: 5px;
 }
 #main {
   padding: 10px;

@@ -86,8 +86,31 @@
 (defn times [start place offset]
   [:<>
    (for [i (range 0 24)]
-     ^{:key (str (:city place) i)}
-     [:div (format-time (t/plus start (t/hours i)) :12 offset)])])
+     (let [time (t/plus start (t/hours i))
+           hour (t/hour time)]
+       ^{:key (str (:city place) i)}
+       [:div.cell {:class (cond
+                            (= hour 0)
+                            ["terrible-time" "start-of-day"]
+
+                            (= hour 23)
+                            ["terrible-time" "end-of-day"]
+
+                            ;; inconvenient hours
+                            (or (and (>= hour 6)
+                                     (<= hour 8))
+                                (and (>= hour 18)
+                                     (<= hour 20)))
+                            "bad-time"
+                            
+                            ;; no way hours
+                            (or (< hour 6)
+                                (> hour 20))
+                            "terrible-time"
+
+                            :else
+                            "good-time")}
+        (format-time time :12 offset)]))])
 
 (defn extract-current-tz [timestamps]
   (first (filter #(or (< (t/epoch) (first %))
@@ -109,7 +132,7 @@
           [:div "Loading."])
         [:<>
          [:div.drag-bar "::::"]
-         [:div.cell-header
+         [:div.cell-header {:title (str (:city place) " - " (:region place))}
           [:b.city (:city place)]
           [:div short-name]]
          [times (t/minus now (t/minutes offset)) place offset]]))))
